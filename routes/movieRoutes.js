@@ -10,4 +10,5 @@ router.get("/home", getHome);
 router.post("/moremovies", getMoreMovies);
 router.post("/movie", postMovie);
 
+
 module.exports = router;

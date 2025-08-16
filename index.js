@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const movieRoutes = require('./routes/movieRoutes');
+const trailerRoutes = require('./routes/trailer');
+
 
 const app = express();
 
@@ -11,6 +13,8 @@ app.use(express.json());
 
 // Routes
 app.use('/api', movieRoutes);
+app.use('/api', trailerRoutes); // 👈 this will expose POST /api/get-trailer
+
 
 const PORT = process.env.PORT || 5500;
 
