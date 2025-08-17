@@ -21,7 +21,7 @@ const searchYouTubeTrailer = async (title, language) => {
 
 router.post('/get-trailer', async (req, res) => {
   const { title, language } = req.body;
-  console.log(req.body);
+  console.log("trailer for ", req.body);
 
   if (!title) {
     return res.status(400).json({ error: 'Movie title is required' });
@@ -38,7 +38,7 @@ router.post('/get-trailer', async (req, res) => {
     if (videoUrl) {
       return res.json({ url: videoUrl });
     } else {
-      return res.status(404).json({ error: 'Trailer not found' });
+      return res.status(404).json({ error: 'Trailer not found in youtube' });
     }
 
   } catch (err) {
