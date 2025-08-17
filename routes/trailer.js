@@ -21,6 +21,7 @@ const searchYouTubeTrailer = async (title, language) => {
 
 router.post('/get-trailer', async (req, res) => {
   const { title, language } = req.body;
+  console.log(req.body);
 
   if (!title) {
     return res.status(400).json({ error: 'Movie title is required' });
