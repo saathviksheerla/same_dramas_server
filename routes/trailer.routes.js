@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+require('dotenv').config();
 
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 
@@ -11,6 +12,8 @@ const searchYouTubeTrailer = async (title, language) => {
   const res = await fetch(url);
   const data = await res.json();
 
+  //console.log("YouTube API response:", data);
+
   if (data.items && data.items.length > 0) {
     const videoId = data.items[0].id.videoId;
     return `https://www.youtube.com/watch?v=${videoId}`;
@@ -19,7 +22,7 @@ const searchYouTubeTrailer = async (title, language) => {
   return null;
 };
 
-router.post('/get-trailer', async (req, res) => {
+router.post('/', async (req, res) => {
   const { title, language } = req.body;
   console.log("trailer for ", req.body);
 
@@ -35,7 +38,10 @@ router.post('/get-trailer', async (req, res) => {
       videoUrl = await searchYouTubeTrailer(title, 'Telugu');
     }
 
+    //console.log("videoUrl: ", videoUrl);
+
     if (videoUrl) {
+      console.log("Found trailer URL: ", videoUrl);
       return res.json({ url: videoUrl });
     } else {
       return res.status(404).json({ error: 'Trailer not found in youtube' });

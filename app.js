@@ -1,7 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const movieRoutes = require("./routes/movieRoutes");
+const movieRoutes = require("./routes/movie.routes");
+const trailerRoutes = require("./routes/trailer.routes");
+const { getHome } = require("./controllers/home.controller");
 require('dotenv').config(); // Load environment variables
 
 const app = express();
@@ -9,19 +11,22 @@ const PORT = process.env.PORT || 5500;
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || '*',
+  origin: process.env.CLIENT_URL || 'http://localhost:3000',
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 }));
+app.use(express.json());
 
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
 // Routes
-app.use("/api", movieRoutes);
+app.get("/api", getHome);
+app.use("/api/movies", movieRoutes);
+app.use("/api/trailers", trailerRoutes);
 
 // Health check endpoint
-app.get("/", (req, res) => {
+app.get("/health", (req, res) => {
   res.json({ 
     status: "success",
     message: "Movie Recommendation API running...",

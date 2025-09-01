@@ -4,35 +4,10 @@ const { recMoviesData } = require('../utils/movies');
 const { getMovieInfo } = require('../utils/wikiApi');
 const { getSimilarMovies } = require('../utils/geminiApi');
 
-// Initialize movies with the data from movies.js
-let movies = [...recMoviesData];
 let searchedMovie = null;
-
-// Log initial movies for debugging
-console.log("Initial movies loaded:", movies.length);
-console.log("First movie:", movies.length > 0 ? movies[0].title : "No movies");
 
 // Fallback image for when Wikipedia doesn't provide one
 const FALLBACK_IMAGE = "https://via.placeholder.com/300x450?text=Movie+Poster";
-
-exports.getHome = (req, res) => {
-  try {
-    res.json({
-      status: "success",
-      data: {
-        movies: movies.slice(0, 10), // Send first 10 movies for initial load
-        searchedMovie
-      }
-    });
-  } catch (error) {
-    console.error("Error in getHome:", error);
-    res.status(500).json({
-      status: "error",
-      message: "Failed to get home data",
-      error: error.message
-    });
-  }
-};
 
 exports.getMoreMovies = async (req, res) => {
   try {

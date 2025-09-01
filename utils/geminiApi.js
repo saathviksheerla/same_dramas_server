@@ -6,6 +6,7 @@ const {
   getPersonFilmography, 
   getMoviesByGenre
 } = require('./wikiApi');
+require('dotenv').config();
 
 // Initialize with the API key from environment variables
 const API_KEY = process.env.GEMINI_API_KEY;
